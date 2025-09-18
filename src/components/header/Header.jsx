@@ -1,18 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Container from "../container/Container";
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../store/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
+    const [open, setOpen] = useState(false);
+    const [name, setName] = useState('');
+    const navigate = useNavigate();
     const auth = useSelector((s) => s.auth);
     const dispatch = useDispatch();
-    const [open, setOpen] = useState(false);
+  
+    useEffect(() => {
+        if (auth?.user.email) {
+            setName(auth.user.email);
+        }
+    }, [auth]);
 
     const handleLogin = () => {
-        // Simulate a login action
-        const dummyUser = { username: 'DevRaj Thakur' };
-        dispatch({ type: 'auth/login', payload: dummyUser });
-    }
+        if (auth.isAuthenticated) {
+            dispatch(logout()); 
+            navigate('/login');
+        } else {
+            navigate('/login');
+        }
+    };
 
     return (
         <nav className="bg-white/80 dark:bg-gray-900/60 backdrop-blur sticky top-0 z-30 border-b border-gray-100 dark:border-gray-800">
@@ -27,11 +39,11 @@ export default function Header() {
                         <a href="#projects" className="text-sm hover:underline">Projects</a>
                         {auth.isAuthenticated ? (
                             <div className="flex items-center gap-4" style={{ marginLeft: '28px' }}>
-                                <span className="text-sm">Hi, DevRaj Thakur</span>
+                                <span className="text-sm">Hi, {name}</span>
                                 <button onClick={() => dispatch(logout())} className="text-sm px-3 py-1 border rounded">Logout</button>
                             </div>
                         ) : (
-                               <button onClick={handleLogin} className="text-sm px-3 py-1 border rounded">Login</button>
+                            <button onClick={handleLogin} className="text-sm px-3 py-1 border rounded">Login</button>
                         )}
                     </div>
                     {/* mobile View */}
@@ -57,4 +69,3 @@ export default function Header() {
         </nav>
     );
 }
-
