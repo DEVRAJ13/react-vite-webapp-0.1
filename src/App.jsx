@@ -1,15 +1,16 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { Provider } from 'react-redux';
 import './App.css'
+import { store } from './store/store';
+import Navbar from './components/header/Header'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>Hi Its React Sample</div>
-    </>
+    <Provider store={store}>
+      <Navbar />
+    </Provider>
   )
 }
 
