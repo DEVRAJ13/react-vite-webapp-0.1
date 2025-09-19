@@ -41,13 +41,13 @@ export default function Header() {
         >
             <Container>
                 <div className="flex items-center justify-between h-16">
-                    <div className="text-lg font-bold">Demo</div>
+                    <div className="text-lg font-bold">Debu.</div>
 
                     {/* Desktop Menu */}
                     <div className="hidden md:flex items-center gap-4">
-                        <a href="#about" className="text-sm hover:underline">About</a>
+                        {/* <a href="#about" className="text-sm hover:underline">About</a>
                         <a href="#resume" className="text-sm hover:underline">Resume</a>
-                        <a href="#projects" className="text-sm hover:underline">Projects</a>
+                        <a href="#projects" className="text-sm hover:underline">Projects</a> */}
 
                         {auth?.isAuthenticated ? (
                             <div className="flex items-center gap-4 ml-7">
@@ -88,9 +88,9 @@ export default function Header() {
                 {/* Mobile Menu */}
                 {open && (
                     <div className="md:hidden py-3 flex flex-col gap-2">
-                        <a href="#about" className="text-sm">About</a>
+                        {/* <a href="#about" className="text-sm">About</a>
                         <a href="#resume" className="text-sm">Resume</a>
-                        <a href="#projects" className="text-sm">Projects</a>
+                        <a href="#projects" className="text-sm">Projects</a> */}
 
                         {auth?.isAuthenticated ? (
                             <button
