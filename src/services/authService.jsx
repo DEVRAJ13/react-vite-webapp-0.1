@@ -1,32 +1,9 @@
-// import auth from '../firebase';
-
-// import {
-//     createUserWithEmailAndPassword,
-//     signInWithEmailAndPassword,
-//     signOut
-// } from "firebase/auth";
-
-// export const registerUser = async (email, password) => {
-//     const res = await createUserWithEmailAndPassword(auth, email, password);
-//     return res.user;
-// };
-
-// export const loginUser = async (email, password) => {
-//     const res = await signInWithEmailAndPassword(auth, email, password);
-//     return res.user;
-// };
-
-// export const logoutUser = async () => {
-//     await signOut(auth);
-// };
-
-// authService.jsx
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
-import { app } from "../firebase"; // import initialized firebase app
+import { app } from "../firebase";
 
 const auth = getAuth(app);
 
-export const loginUser = async (email, password) => {
+export const fireLoginApi = async (email, password) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     return userCredential.user;
@@ -36,11 +13,11 @@ export const loginUser = async (email, password) => {
   }
 };
 
-export const registerUser = async (email, password) => {
+export const fireSignupApi = async (email, password) => {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     return res.user;
 };
 
-export const logoutUser = async () => {
+export const fireLogoutApi = async () => {
     await signOut(auth);
 };

@@ -1,34 +1,32 @@
-import { loginUser } from "../../services/authService";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import { login } from '../../store/authSlice';
-import { useDispatch, useSelector } from 'react-redux';
 
+import { fireLoginApi } from "../../services/authService";
+import { login } from "../../store/authSlice";
+import { validationRules } from "../../utils/validated";
 
 export default function Login() {
     const navigate = useNavigate();
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isSubmitting },
-    } = useForm();
     const dispatch = useDispatch();
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
 
     const handleLogin = async (data) => {
         try {
-            const user = await loginUser(data.email, data.password);
-            console.log("Logged in user:", user);
-            dispatch(login({
-                uid: user.uid,
-                email: user.email,
-                displayName: user.displayName,
-                photoURL: user.photoURL,
-            }));
+            const user = await fireLoginApi(data.email, data.password);
+            if (!user) throw new Error("No user returned from login service");
+            dispatch(
+                login({
+                    uid: user.uid,
+                    email: user.email,
+                    displayName: user.displayName,
+                    photoURL: user.photoURL,
+                })
+            );
             navigate("/dashboard");
-            // Handle successful login (e.g., redirect, show message)
         } catch (error) {
-            console.error("Login error:", error);
-            // Handle login error (e.g., show error message)
+            console.error("Login error:", error.message || error);
+            throw new Error("Login failed. Please try again.");
         }
     };
 
@@ -53,22 +51,14 @@ export default function Login() {
                         <input
                             type="email"
                             placeholder="Enter your email"
-                            {...register("email", {
-                                required: "Email is required",
-                                pattern: {
-                                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                                    message: "Enter a valid email address",
-                                },
-                            })}
+                            {...register("email", validationRules.email)}
                             className={`w-full rounded-xl border px-4 py-2.5 text-sm shadow-sm focus:ring-2 transition ${errors.email
-                                ? "border-red-500 focus:ring-red-200"
-                                : "border-gray-300 focus:border-indigo-500 focus:ring-indigo-200"
+                                    ? "border-red-500 focus:ring-red-200"
+                                    : "border-gray-300 focus:border-indigo-500 focus:ring-indigo-200"
                                 }`}
                         />
                         {errors.email && (
-                            <p className="mt-1 text-xs text-red-500">
-                                {errors.email.message}
-                            </p>
+                            <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>
                         )}
                     </div>
 
@@ -80,16 +70,10 @@ export default function Login() {
                         <input
                             type="password"
                             placeholder="••••••••"
-                            {...register("password", {
-                                required: "Password is required",
-                                minLength: {
-                                    value: 6,
-                                    message: "Password must be at least 6 characters",
-                                },
-                            })}
+                            {...register("password", validationRules.password)}
                             className={`w-full rounded-xl border px-4 py-2.5 text-sm shadow-sm focus:ring-2 transition ${errors.password
-                                ? "border-red-500 focus:ring-red-200"
-                                : "border-gray-300 focus:border-indigo-500 focus:ring-indigo-200"
+                                    ? "border-red-500 focus:ring-red-200"
+                                    : "border-gray-300 focus:border-indigo-500 focus:ring-indigo-200"
                                 }`}
                         />
                         {errors.password && (
@@ -98,12 +82,12 @@ export default function Login() {
                             </p>
                         )}
                         <div className="text-right mt-1">
-                            <a
-                                href="/forgot-password"
+                            <Link
+                                to="/forgot-password"
                                 className="text-xs text-indigo-600 hover:underline"
                             >
                                 Forgot password?
-                            </a>
+                            </Link>
                         </div>
                     </div>
 
@@ -137,10 +121,7 @@ export default function Login() {
                 {/* Footer */}
                 <p className="text-center text-sm text-gray-600 mt-6">
                     Don’t have an account?{" "}
-                    <Link
-                        to="/register"
-                        className="text-indigo-600 font-medium hover:underline"
-                    >
+                    <Link to="/register" className="text-indigo-600 font-medium hover:underline">
                         Sign up
                     </Link>
                 </p>
