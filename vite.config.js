@@ -4,7 +4,10 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [react(),
-      tailwindcss(),
+  tailwindcss(),
   ],
   base: "/react-vite-webapp-0.1/",
+  server: {
+    historyApiFallback: true
+  }
 })
