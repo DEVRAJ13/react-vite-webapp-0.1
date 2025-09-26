@@ -102,21 +102,21 @@ export default function Login() {
                 </form>
 
                 {/* Divider */}
-                <div className="my-6 flex items-center text-gray-400 text-sm">
+                {/* <div className="my-6 flex items-center text-gray-400 text-sm">
                     <hr className="flex-grow border-gray-300" />
                     <span className="px-3">OR</span>
                     <hr className="flex-grow border-gray-300" />
-                </div>
+                </div> */}
 
                 {/* Social Login */}
-                <button className="w-full flex items-center justify-center gap-2 border border-gray-300 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-50 transition shadow-sm">
+                {/* <button className="w-full flex items-center justify-center gap-2 border border-gray-300 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-50 transition shadow-sm">
                     <img
                         src="https://www.svgrepo.com/show/475656/google-color.svg"
                         alt="Google"
                         className="w-5 h-5"
                     />
                     Continue with Google
-                </button>
+                </button> */}
 
                 {/* Footer */}
                 <p className="text-center text-sm text-gray-600 mt-6">
